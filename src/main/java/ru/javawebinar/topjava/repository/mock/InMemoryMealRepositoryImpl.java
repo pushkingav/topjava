@@ -12,7 +12,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class InMemoryMealRepositoryImpl implements MealRepository {
-    private Map<Integer, Meal> repository = new ConcurrentHashMap<>();
+    private Map<Integer, Map<Integer, Meal>> repository = new ConcurrentHashMap<>();
     private AtomicInteger counter = new AtomicInteger(0);
     private static final Logger log = LoggerFactory.getLogger(InMemoryMealRepositoryImpl.class);
 
@@ -21,20 +21,25 @@ public class InMemoryMealRepositoryImpl implements MealRepository {
     }
 
     @Override
-    public void delete(int id) {
-        log.info("delete {}", id);
-        repository.remove(id);
+    public void delete(int userId, int mealId) {
+        log.info("delete {}", userId, mealId);
+        Map<Integer, Meal> currentUserMeals = repository.get(userId);
+        currentUserMeals.remove(mealId);
+        repository.put(userId, currentUserMeals);
     }
 
     @Override
     public Meal save(Meal meal) {
+        Map<Integer, Meal> currentUserMeals = repository.computeIfAbsent(meal.getUserId(), userId -> new ConcurrentHashMap<>());
         if (meal.isNew()) {
             meal.setId(counter.incrementAndGet());
-            repository.put(meal.getId(), meal);
+            currentUserMeals.put(meal.getId(), meal);
+            repository.put(meal.getUserId(), currentUserMeals);
+            log.info("save {}", meal);
             return meal;
         }
         // treat case: update, but absent in storage
-        log.info("save {}", meal);
+        log.info("edit {}", meal);
         return repository.computeIfPresent(meal.getId(), (id, oldMeal) -> meal);
     }
 
