@@ -19,6 +19,10 @@
 <body>
 <section>
     <h3><a href="index.html">Home</a></h3>
+    <select>
+        <option>User 1</option>
+        <option>User 2</option>
+    </select>
     <h2>Meals</h2>
     <a href="meals?action=create">Add Meal</a>
     <hr/>
