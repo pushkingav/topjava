@@ -28,9 +28,9 @@ public class MealRestController {
         return null;
     }
 
-    public MealWithExceed get(int mealId) {
+    public Meal get(int mealId) {
         log.info("get {}", mealId);
-        return service.get(SecurityUtil.authUserId(), mealId, SecurityUtil.authUserCaloriesPerDay());
+        return service.get(SecurityUtil.authUserId(), mealId);
     }
 
     public boolean delete(int id) {
@@ -41,7 +41,7 @@ public class MealRestController {
     }
 
     public void update(Meal meal) {
-        log.info("update {}", meal.getId());
-        service.update(meal, meal.getId());
+        log.info("update {}", meal);
+        service.update(meal);
     }
 }

@@ -25,9 +25,8 @@ public class MealServiceImpl implements MealService {
     }
 
     @Override
-    public MealWithExceed get(int userId, int mealId, int caloriesPerDay) {
-        List<MealWithExceed> all = getAll(userId, caloriesPerDay);
-        return all.stream().filter(mealWithExceed -> mealWithExceed.getId().equals(mealId)).findAny().get();
+    public Meal get (int userId, int mealId) {
+        return repository.get(userId, mealId);
     }
 
     @Override
@@ -37,7 +36,7 @@ public class MealServiceImpl implements MealService {
     }
 
     @Override
-    public void update(Meal meal, int id) {
+    public void update(Meal meal) {
         repository.save(meal);
     }
 }

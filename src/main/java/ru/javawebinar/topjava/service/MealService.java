@@ -10,9 +10,9 @@ public interface MealService {
 
     List<MealWithExceed> getAllFiltered(String type);
 
-    MealWithExceed get(int userId, int mealId, int caloriesPerDay);
+    Meal get(int userId, int mealId);
 
     boolean delete(int userId, int mealId);
 
-    void update(Meal meal, int id);
+    void update(Meal meal);
 }
