@@ -45,10 +45,10 @@ public class InMemoryMealRepositoryImpl implements MealRepository {
             log.info("save {}", meal);
             return meal;
         }
-        log.info("edit {}", meal);
 
-        Meal oldMeal = get(meal.getUserId(), meal.getId());
-        currentUserMeals.put(meal.getUserId(), meal);
+        log.info("edit {}", meal);
+        currentUserMeals.put(meal.getId(), meal);
+        repository.put(meal.getUserId(), currentUserMeals);
         return meal;
     }
 
