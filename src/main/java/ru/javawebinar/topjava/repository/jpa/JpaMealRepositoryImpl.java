@@ -2,6 +2,7 @@ package ru.javawebinar.topjava.repository.jpa;
 
 import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.repository.MealRepository;
@@ -12,13 +13,14 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
-//@Transactional(readOnly = true);
+@Transactional
 public class JpaMealRepositoryImpl implements MealRepository {
     @PersistenceContext
     private EntityManager entityManager;
 
     @Override
     public Meal save(Meal meal, int userId) {
+        meal.setUser(getRef(userId));
         if (meal.isNew()) {
             entityManager.persist(meal);
             return meal;
@@ -31,8 +33,8 @@ public class JpaMealRepositoryImpl implements MealRepository {
     public boolean delete(int id, int userId) {
         User ref = getRef(userId);
         return entityManager.createNamedQuery(Meal.DELETE)
-                .setParameter(1, id)
-                .setParameter(2, ref)
+                .setParameter("id", id)
+                .setParameter("user", ref)
                 .executeUpdate() > 0;
     }
 

@@ -3,6 +3,7 @@ package ru.javawebinar.topjava.model;
 import javax.persistence.*;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -29,10 +30,11 @@ public class Meal extends AbstractBaseEntity {
     private LocalDateTime dateTime;
 
     @Column(name = "description", nullable = false)
-    @NotNull
+    @NotBlank
     private String description;
 
     @Column(name = "calories", nullable = false, columnDefinition = "int")
+    @NotNull
     private int calories;
 
     @ManyToOne(fetch = FetchType.LAZY)
