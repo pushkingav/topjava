@@ -28,6 +28,8 @@ public interface CrudMealRepository extends JpaRepository<Meal, Integer> {
     @Override
     List<Meal> findAll(Sort sort);
 
+    List<Meal> findAllByUserId(int userID);
+
     List<Meal> findAllByDateTimeBetween(LocalDate startDate, LocalDate endDate);
 
 }
