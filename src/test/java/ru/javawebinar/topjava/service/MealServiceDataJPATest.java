@@ -34,7 +34,7 @@ public class MealServiceDataJPATest extends AbstractServiceTest {
     @Test
     public void delete() throws Exception {
         service.delete(MEAL1_ID, USER_ID);
-        assertMatch(service.getAll(USER_ID), MEAL2, MEAL3, MEAL4, MEAL5, MEAL6);
+        assertMatch(service.getAll(USER_ID), MEAL6, MEAL5, MEAL4, MEAL3, MEAL2);
     }
 
     @Test

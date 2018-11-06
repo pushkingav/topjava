@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 import ru.javawebinar.topjava.model.Meal;
+import ru.javawebinar.topjava.model.User;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -28,8 +29,8 @@ public interface CrudMealRepository extends JpaRepository<Meal, Integer> {
     @Override
     List<Meal> findAll(Sort sort);
 
-    List<Meal> findAllByUserId(int userID);
+    List<Meal> findAllByUserOrderByDateTimeDesc(User user);
 
-    List<Meal> findAllByDateTimeBetween(LocalDate startDate, LocalDate endDate);
+    List<Meal> findAllByDateBetween(LocalDate before, LocalDate after);
 
 }
