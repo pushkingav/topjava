@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.model.User;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,6 +31,9 @@ public interface CrudMealRepository extends JpaRepository<Meal, Integer> {
 
     List<Meal> findAllByUserOrderByDateTimeDesc(User user);
 
-    List<Meal> findAllByDateBetween(LocalDate before, LocalDate after);
+    @SuppressWarnings("JpaQlInspection")
+    @Query("SELECT m FROM Meal m WHERE m.user=:user AND m.dateTime BETWEEN :startDate AND :endDate ORDER BY m.dateTime DESC")
+    List<Meal> findAllByDateBetween(@Param("user") User user, @Param("startDate") LocalDateTime startDate,
+                                    @Param("endDate") LocalDateTime endDate);
 
 }
