@@ -38,13 +38,6 @@ public class JspMealController extends AbstractMealController {
         return "mealForm";
     }
 
-    @GetMapping("/meals/update/{id}")
-    public String updateMeal(@PathVariable Integer id, Model model) {
-        Meal meal = super.get(id);
-        model.addAttribute("meal", meal);
-        return "mealForm";
-    }
-
     @PostMapping("/meals/create")
     public String addMeal(HttpServletRequest request, HttpServletResponse response) {
         Meal meal = new Meal(
@@ -55,35 +48,23 @@ public class JspMealController extends AbstractMealController {
         return "redirect:/meals";
     }
 
+    @GetMapping("/meals/update/{id}")
+    public String getMealForUpdate(@PathVariable Integer id, Model model) {
+        Meal meal = super.get(id);
+        model.addAttribute("meal", meal);
+        return "mealForm";
+    }
 
-    /*@GetMapping("/meals")
-    public String getMeals(Model model, HttpServletRequest request) {
-       String action = request.getParameter("action");
-       String result = "";
-       switch (action == null ? "all" : action) {
-           case "delete":
-               int id = getId(request);
-               delete(id);
-               model.addAttribute("meals", getAll());
-               result = "redirect: meals";
-               break;
-           case "create":
-           case "update":
-               final Meal meal = "create".equals(action) ?
-                       new Meal(LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES), "", 1000) :
-                       get(getId(request));
-               super.update(meal);
-               request.setAttribute("meal", meal);
-               request.getRequestDispatcher("/mealForm.jsp").forward(request, response);
-               break;
-           case "all":
-           default:
-               request.setAttribute("meals", getAll());
-               request.getRequestDispatcher("/meals.jsp").forward(request, response);
-               break;
-       }
-       return result;
-   }*/
+    @PostMapping("/meals/update/{id}")
+    public String updateMeal(@PathVariable Integer id, HttpServletRequest request) {
+        Meal meal = new Meal(
+                LocalDateTime.parse(request.getParameter("dateTime")),
+                request.getParameter("description"),
+                Integer.parseInt(request.getParameter("calories")));
+        meal.setId(id);
+        super.update(meal, id);
+        return "redirect:/meals";
+    }
 
     private int getId(HttpServletRequest request) {
         String paramId = Objects.requireNonNull(request.getParameter("id"));

@@ -8,7 +8,7 @@
 </head>
 <body>
 <section>
-    <h3><a href="/index.html">Home</a></h3>
+    <h3><a href="/topjava">Home</a></h3>
     <h2>${param.action == 'create' ? 'Create meal' : 'Edit meal'}</h2>
     <hr>
     <c:if test="${param.action} == 'create'">
