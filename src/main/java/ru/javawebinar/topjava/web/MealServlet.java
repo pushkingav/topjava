@@ -22,7 +22,7 @@ import static ru.javawebinar.topjava.util.DateTimeUtil.parseLocalTime;
 
 public class MealServlet extends HttpServlet {
 
-    private MealRestController mealController;
+    /*private MealRestController mealController;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
@@ -60,7 +60,7 @@ public class MealServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        /*String action = request.getParameter("action");
+        *//*String action = request.getParameter("action");
 
         switch (action == null ? "all" : action) {
             case "delete":
@@ -81,11 +81,11 @@ public class MealServlet extends HttpServlet {
                 request.setAttribute("meals", mealController.getAll());
                 request.getRequestDispatcher("/meals.jsp").forward(request, response);
                 break;
-        }*/
+        }*//*
     }
 
     private int getId(HttpServletRequest request) {
         String paramId = Objects.requireNonNull(request.getParameter("id"));
         return Integer.parseInt(paramId);
-    }
+    }*/
 }

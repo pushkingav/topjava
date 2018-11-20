@@ -30,7 +30,7 @@ public class MealRestController {
         this.service = service;
     }
 
-    public Meal get(int id) {
+    /*public Meal get(int id) {
         int userId = SecurityUtil.authUserId();
         log.info("get meal {} for user {}", id, userId);
         return service.get(id, userId);
@@ -62,12 +62,12 @@ public class MealRestController {
         service.update(meal, userId);
     }
 
-    /**
+    *//**
      * <ol>Filter separately
      * <li>by date</li>
      * <li>by time for every date</li>
      * </ol>
-     */
+     *//*
     public List<MealTo> getBetween(LocalDate startDate, LocalTime startTime, LocalDate endDate, LocalTime endTime) {
         int userId = SecurityUtil.authUserId();
         log.info("getBetween dates({} - {}) time({} - {}) for user {}", startDate, endDate, startTime, endTime, userId);
@@ -78,5 +78,5 @@ public class MealRestController {
         return MealsUtil.getFilteredWithExcess(mealsDateFiltered, SecurityUtil.authUserCaloriesPerDay(),
                 orElse(startTime, LocalTime.MIN), orElse(endTime, LocalTime.MAX)
         );
-    }
+    }*/
 }

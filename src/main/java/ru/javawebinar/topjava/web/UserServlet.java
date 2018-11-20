@@ -15,7 +15,7 @@ import java.io.IOException;
 import static org.slf4j.LoggerFactory.getLogger;
 
 public class UserServlet extends HttpServlet {
-    private static final Logger log = getLogger(UserServlet.class);
+   /* private static final Logger log = getLogger(UserServlet.class);
 
     private AdminRestController adminController;
 
@@ -38,5 +38,5 @@ public class UserServlet extends HttpServlet {
         log.debug("getAll");
         request.setAttribute("users", adminController.getAll());
         request.getRequestDispatcher("/users.jsp").forward(request, response);
-    }
+    }*/
 }
