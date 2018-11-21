@@ -11,12 +11,14 @@
 <body>
 <jsp:include page="fragments/bodyHeader.jsp"/>
 <section>
-    <h3><a href="/topjava"><spring:message code="app.home"/></a></h3>
-    <h2>${param.action == 'create' ? 'Create meal' : 'Edit meal'}</h2>
-    <hr>
     <c:if test="${param.action} == 'create'">
         <jsp:useBean id="meal" type="ru.javawebinar.topjava.model.Meal" scope="request"/>
+
     </c:if>
+    <h3><a href="/topjava"><spring:message code="app.home"/></a></h3>
+    <h2><spring:message code="${(meal == null) ? 'meal.addmeal' : 'meal.editmeal'}"/></h2>
+    <hr>
+
     <form method="post" action="">
         <input type="hidden" name="id" value="${meal.id}">
         <dl>
