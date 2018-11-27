@@ -1,6 +1,7 @@
 package ru.javawebinar.topjava.web;
 
 import org.junit.jupiter.api.Test;
+import org.springframework.http.HttpStatus;
 
 import static org.hamcrest.Matchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -43,6 +44,13 @@ class RootControllerTest extends AbstractControllerTest {
                                 hasProperty("dateTime", is(MEAL1.getDateTime()))
                         )
                 )));
+    }
+
+    @Test
+    void testCss() throws Exception {
+        mockMvc.perform(get("/resources/css/style.css"))
+        .andExpect(status().is(HttpStatus.OK.value()))
+        .andExpect(content().contentType("text/css"));
     }
 
 }
