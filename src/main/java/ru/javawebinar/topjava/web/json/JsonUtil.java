@@ -2,6 +2,7 @@ package ru.javawebinar.topjava.web.json;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectReader;
 
 import java.io.IOException;
@@ -18,6 +19,15 @@ public class JsonUtil {
         ObjectReader reader = getMapper().readerFor(clazz);
         try {
             return reader.<T>readValues(json).readAll();
+        } catch (IOException e) {
+            throw new IllegalArgumentException("Invalid read array from JSON:\n'" + json + "'", e);
+        }
+    }
+
+    public static <T> List<T> readValuesIgnoringUnknownProperties(String json, Class<T> clazz) {
+        ObjectReader reader = getMapper().readerFor(clazz);
+        try {
+            return reader.without(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES).<T>readValues(json).readAll();
         } catch (IOException e) {
             throw new IllegalArgumentException("Invalid read array from JSON:\n'" + json + "'", e);
         }
