@@ -1,13 +1,17 @@
 package ru.javawebinar.topjava.web.meal;
 
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.to.MealTo;
+import ru.javawebinar.topjava.util.DateTimeUtil;
 
 import java.time.LocalDateTime;
 import java.util.List;
+
+import static org.springframework.format.annotation.DateTimeFormat.*;
 
 @RestController
 @RequestMapping("/ajax/admin/meals/")
@@ -27,7 +31,7 @@ public class MealAjaxController extends AbstractMealController {
     }
 
     @PostMapping
-    public Meal create(@RequestParam("date_time") LocalDateTime dateTime,
+    public Meal create(@RequestParam("date_time") @DateTimeFormat(iso = ISO.DATE_TIME) LocalDateTime dateTime,
                        @RequestParam("description") String description,
                        @RequestParam("calories") Integer calories) {
         Meal meal = new Meal(dateTime, description, calories);
