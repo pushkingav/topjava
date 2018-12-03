@@ -1,4 +1,4 @@
-const ajaxMealsUrl = "ajax/admin/meals/";
+const ajaxUrl = "ajax/admin/meals/";
 let datatableApi;
 
 $(function () {

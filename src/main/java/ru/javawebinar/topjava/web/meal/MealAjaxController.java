@@ -22,7 +22,7 @@ public class MealAjaxController extends AbstractMealController {
     @Override
     @DeleteMapping("/{id}")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    public void delete(int id) {
+    public void delete(@PathVariable int id) {
         super.delete(id);
     }
 
