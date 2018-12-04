@@ -1,7 +1,6 @@
 const ajaxUrl = "ajax/admin/users/";
 let datatableApi;
 
-// $(document).ready(function () {
 $(function () {
     datatableApi = $("#datatable").DataTable({
         "paging": false,
