@@ -29,6 +29,7 @@ $(function () {
                         if (type === "display") {
                             return date.substring(0, 10)+ " " + date.substring(11, 16);
                         }
+                        return date;
                     }
                 },
                 {
@@ -53,7 +54,10 @@ $(function () {
                     0,
                     "desc"
                 ]
-            ]
+            ],
+            "createdRow": function (row, data, dataIndex) {
+                $(row).attr("data-mealExcess", !!data.excess);
+            }
         }),
         updateTable: function () {
             $.get(mealsAjaxUrl, updateTableByData);

@@ -1,21 +1,29 @@
 package ru.javawebinar.topjava.to;
 
-import org.hibernate.validator.constraints.Range;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-public class MealTo extends BaseTo {
+public class MealTo extends BaseTo implements Serializable {
+    private static final long serialVersionUID = 11L;
+
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+    @NotNull
     private LocalDateTime dateTime;
 
     @NotBlank
     private String description;
 
-    @Range(max = 2500, message = "calories should not exceed the 2500 upper range")
-    private int calories;
+    @Min(10)
+    @Max(5000)
+    @NotNull
+    private Integer calories;
 
     private boolean excess;
 
@@ -39,7 +47,7 @@ public class MealTo extends BaseTo {
         return description;
     }
 
-    public int getCalories() {
+    public Integer getCalories() {
         return calories;
     }
 
@@ -55,7 +63,7 @@ public class MealTo extends BaseTo {
         this.description = description;
     }
 
-    public void setCalories(int calories) {
+    public void setCalories(@Min(10) @Max(5000) Integer calories) {
         this.calories = calories;
     }
 
