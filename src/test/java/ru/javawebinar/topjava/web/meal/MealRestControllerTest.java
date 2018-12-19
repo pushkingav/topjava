@@ -14,6 +14,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static ru.javawebinar.topjava.MealTestData.assertMatch;
 import static ru.javawebinar.topjava.MealTestData.*;
 import static ru.javawebinar.topjava.TestUtil.*;
 import static ru.javawebinar.topjava.UserTestData.*;
@@ -69,6 +70,18 @@ class MealRestControllerTest extends AbstractControllerTest {
     }
 
     @Test
+    void testUpdateValidation() throws Exception {
+        Meal updated = getUpdated();
+        updated.setDescription("");
+
+        mockMvc.perform(put(REST_URL + MEAL1_ID)
+        .contentType(MediaType.APPLICATION_JSON)
+        .content(JsonUtil.writeValue(updated))
+        .with(userHttpBasic(USER)))
+        .andExpect(status().is4xxClientError());
+    }
+
+    @Test
     void testUpdate() throws Exception {
         Meal updated = getUpdated();
 
@@ -79,6 +92,17 @@ class MealRestControllerTest extends AbstractControllerTest {
                 .andExpect(status().isNoContent());
 
         assertMatch(service.get(MEAL1_ID, START_SEQ), updated);
+    }
+
+    @Test
+    void testCreateValidation() throws Exception {
+        Meal created = getCreated();
+        created.setCalories(-5);
+        mockMvc.perform(post(REST_URL)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(JsonUtil.writeValue(created))
+                .with(userHttpBasic(ADMIN)))
+        .andExpect(status().is4xxClientError());
     }
 
     @Test

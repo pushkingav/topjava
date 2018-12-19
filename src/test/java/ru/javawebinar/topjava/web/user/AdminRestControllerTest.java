@@ -82,6 +82,19 @@ class AdminRestControllerTest extends AbstractControllerTest {
     }
 
     @Test
+    void testUpdateValidation() throws Exception {
+        User updated = new User(USER);
+        updated.setEmail("");
+        updated.setName("UpdatedName");
+        updated.setRoles(Collections.singletonList(Role.ROLE_ADMIN));
+        mockMvc.perform(put(REST_URL + USER_ID)
+                .contentType(MediaType.APPLICATION_JSON)
+                .with(userHttpBasic(ADMIN))
+                .content(JsonUtil.writeValue(updated)))
+                .andExpect(status().is4xxClientError());
+    }
+
+    @Test
     void testUpdate() throws Exception {
         User updated = new User(USER);
         updated.setName("UpdatedName");
@@ -93,6 +106,22 @@ class AdminRestControllerTest extends AbstractControllerTest {
                 .andExpect(status().isNoContent());
 
         assertMatch(userService.get(USER_ID), updated);
+    }
+
+    @Test
+    void testCreateValidation() throws Exception {
+        User expected = new User(null, "New", "new@gmail.com", "newPass", 2300, Role.ROLE_USER, Role.ROLE_ADMIN);
+        ResultActions action = mockMvc.perform(post(REST_URL)
+                .contentType(MediaType.APPLICATION_JSON)
+                .with(userHttpBasic(ADMIN))
+                .content(jsonWithPassword(expected, "newPass")))
+                .andExpect(status().isCreated());
+
+        User returned = readFromJsonResultActions(action, User.class);
+        expected.setId(returned.getId());
+
+        assertMatch(returned, expected);
+        assertMatch(userService.getAll(), ADMIN, expected, USER);
     }
 
     @Test
