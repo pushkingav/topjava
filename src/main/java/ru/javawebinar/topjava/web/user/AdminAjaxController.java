@@ -1,13 +1,17 @@
 package ru.javawebinar.topjava.web.user;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.to.UserTo;
 import ru.javawebinar.topjava.util.UserUtil;
+import ru.javawebinar.topjava.web.UiFormValidator;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -15,6 +19,13 @@ import java.util.List;
 @RestController
 @RequestMapping("/ajax/admin/users")
 public class AdminAjaxController extends AbstractUserController {
+    @Autowired
+    private UiFormValidator uiFormValidator;
+
+    @InitBinder
+    protected void initBinder(WebDataBinder binder) {
+        binder.setValidator(uiFormValidator);
+    }
 
     @Override
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
@@ -37,7 +48,7 @@ public class AdminAjaxController extends AbstractUserController {
 
     @PostMapping
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    public void createOrUpdate(@Valid UserTo userTo, BindingResult result) throws BindException {
+    public void createOrUpdate(@Valid @Validated UserTo userTo, BindingResult result) throws BindException {
         if (result.hasErrors()) {
             throw new BindException(result);
         }

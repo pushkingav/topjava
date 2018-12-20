@@ -102,4 +102,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     public User getWithMeals(int id) {
         return checkNotFoundWithId(repository.getWithMeals(id), id);
     }
+
+
 }
